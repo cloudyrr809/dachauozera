@@ -1,10 +1,8 @@
 (function(){
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 
-  /* toast for stub buttons */
-  const toast=$('#toast'); let tt;
-  function showToast(msg){toast.textContent=msg||'Демо-версия: эта кнопка заработает после запуска сайта';toast.classList.add('is-on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('is-on'),2600)}
-  $$('.stub').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();showToast(el.classList.contains('booking__go')?'Демо-версия: онлайн-бронирование подключим после запуска сайта':null)}));
+  /* заглушки: кнопки ничего не делают */
+  $$('.stub').forEach(el=>el.addEventListener('click',e=>e.preventDefault()));
 
   /* mobile menu */
   const mm=$('#mmenu');
@@ -54,13 +52,13 @@
 
   /* ---------- Наше пространство: вкладки ---------- */
   const SPACE=[
-    {t:'Вид',img:'img/video-terrace.jpg',pos:'50% 50%',chips:['Панорама','До 12 гостей'],d:'Коттеджи с панорамным видом на берегу Суходольского озера'},
-    {t:'Терраса',img:'img/hero.jpg',pos:'50% 60%',chips:['Индивидуальная терраса','Зона барбекю','Костровая зона'],d:'Индивидуальная терраса, зона барбекю и костровая зона'},
-    {t:'Пирс',img:'img/pier.jpg',pos:'50% 75%',chips:['Шезлонги','Лодки и сапы'],d:'Частный пирс у Суходольского озера в нескольких метрах от дома'},
+    {t:'Вид',img:'img/video-terrace.jpg',pos:'50% 50%'},
+    {t:'Терраса',img:'img/hero.jpg',pos:'50% 70%'},
+    {t:'Пирс',img:'img/pier.jpg',pos:'50% 75%'},
     {t:'Интерьер',img:'img/interior.jpg',pos:'50% 66%',chips:['До 12 гостей','Камин','Панорама','King-size'],d:'Минималистичный интерьер с панорамным видом на озеро. Природа и стиль в гармонии'},
-    {t:'Баня',img:'img/svc-banya.jpg',pos:'50% 50%',chips:['Веники и чай включены'],d:'Дровяная баня: отдых и комфорт! Топим настоящими дровами'},
-    {t:'Территория',img:'img/vis-picnic.jpg',pos:'50% 60%',chips:['Костровая зона','Шезлонги','Парковка на 6 машин'],d:'Зона барбекю, костровая зона и место для отдыха на свежем воздухе'},
-    {t:'Кинотеатр',img:'img/vis-cinema.jpg',pos:'50% 60%',chips:['Онлайн-кино','Smart TV'],d:'Wi-Fi 100 Мбит/с, Smart TV и всё необходимое для комфортного проживания'}
+    {t:'Баня',img:'img/svc-banya.jpg',pos:'50% 50%'},
+    {t:'Территория',img:'img/vis-picnic.jpg',pos:'50% 60%'},
+    {t:'Кинотеатр',img:'img/vis-cinema.jpg',pos:'50% 60%'}
   ];
   const sp=$('.space'), spImg=$('.space__img',sp); let cur=3;
   function setSpace(i,init){
@@ -68,8 +66,8 @@
     $$('.tab').forEach((t,j)=>t.classList.toggle('is-on',j===cur));
     spImg.style.opacity=0;
     setTimeout(()=>{spImg.src=s.img;spImg.alt=s.t;spImg.style.objectPosition=s.pos;spImg.style.opacity=1},180);
-    $('.space__title',sp).textContent=s.t; $('.space__desc',sp).textContent=s.d;
-    $('.chips',sp).innerHTML=s.chips.map(c=>'<span>'+c+'</span>').join('');
+    $('.space__title',sp).textContent=s.t; $('.space__desc',sp).textContent=s.d||'';
+    $('.chips',sp).innerHTML=(s.chips||[]).map(c=>'<span>'+c+'</span>').join('');
     const tab=$$('.tab')[cur]; const tabs=$('.tabs'); if(!init&&tabs.scrollWidth>tabs.clientWidth) tabs.scrollTo({left:tab.offsetLeft-tabs.offsetLeft-16,behavior:'smooth'});
   }
   $$('.tab').forEach((t,j)=>t.addEventListener('click',()=>setSpace(j)));
